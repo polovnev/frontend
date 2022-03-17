@@ -1,15 +1,28 @@
 <template>
   <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <ChooseLocation @set-location="setLocation"/>
+  Локация {{locationName}}
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import ChooseLocation from "./components/ChooseLocation.vue"
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    ChooseLocation
+  },
+  data() {
+    return {
+      locationId: 0,
+      locationName: ""
+    }
+  },
+  methods: {
+    setLocation(locationId, locationName) {
+        this.locationId = locationId;
+        this.locationName = locationName;
+    }
   }
 }
 </script>
