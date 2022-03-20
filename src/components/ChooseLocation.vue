@@ -69,15 +69,14 @@ export default {
   methods: {
     async loadCountries() {
       this.countries = (
-        await axios.get("http://localhost:8001/country", {})
+        await axios.get("http://localhost:8001/country")
       ).data;
     },
     async loadLocations(event) {
       let countryId = event.target.value;
       this.locations = (
         await axios.get(
-          "http://localhost:8001/country/" + countryId + "/location",
-          {}
+          "http://localhost:8001/country/" + countryId + "/location"
         )
       ).data;
       this.isShowLocations = true;
