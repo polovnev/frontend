@@ -1,6 +1,4 @@
 <template>
-  <button @click="isShowChooseLocation = true">Локация</button>
-
 
   <section class="vh-100" style="background-color: #2779e2; position: fixed; top: 0; left: 0; width:100%" v-if="isShowChooseLocation">
     <div class="container h-100">
@@ -63,8 +61,10 @@ export default {
       countries: [],
       locations: [],
       isShowLocations: false,
-      isShowChooseLocation: true,
     };
+  },
+  props: {
+    isShowChooseLocation: Boolean
   },
   methods: {
     async loadCountries() {
@@ -84,9 +84,8 @@ export default {
     setLocation(event) {
       let locationId = event.target.value;
       let locationName = this.locations.find((x) => x.id == locationId).name;
-      console.log(locationName);
       this.$emit("set-location", locationId, locationName);
-      this.isShowChooseLocation = false;
+      //this.isShowChooseLocation = false;
     },
   },
   beforeMount() {

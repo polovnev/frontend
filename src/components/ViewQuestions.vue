@@ -1,8 +1,8 @@
 <template>
-  123
   <p v-for="question in questions" :key="question.id">
-    {{ question.text }}
-  </p>
+    {{ question.text }}, {{question.id}}, {{question.authorId}}, {{question.createdDate}},
+     <span v-for="tag in question.tags" :key="tag.id" class="badge bg-secondary">{{tag.text}}</span>{{question.tags}}
+  </p>	
 </template>
 
 <script>
