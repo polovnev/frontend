@@ -1,10 +1,9 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
+<a class="btn btn-info btn-sm " @click="this.isShowChooseLocation = true" role="button">Локация</a>
+ 
   <ChooseLocation @set-location="setLocation" :isShowChooseLocation="isShowChooseLocation" />
-    <button @click="this.isShowChooseLocation = true">Локация</button>
-
   Локация {{ locationName }}
-  <ViewQuestions />
+  <ViewQuestions :locationId="locationId"/>
 </template>
 
 <script>

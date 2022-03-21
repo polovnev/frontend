@@ -1,18 +1,32 @@
 <template>
-  <p v-for="question in questions" :key="question.id">
-    {{ question.text }}, {{question.id}}, {{question.authorId}}, {{question.createdDate}},
-     <span v-for="tag in question.tags" :key="tag.id" class="badge bg-secondary">{{tag.text}}</span>{{question.tags}}
-  </p>	
+  <div
+    v-for="question in questions"
+    :key="question.id"
+    class="card"
+    style="width: 70rem"
+  >
+    <div class="card-body">
+      <span
+        v-for="tag in question.tags"
+        :key="tag.id"
+        class="badge bg-secondary"
+        >{{ tag.text }}</span
+      >
+      <h5 class="card-title">{{ question.text }}</h5>
+      <h6 class="card-subtitle mb-2 text-muted">{{ question.authorId }}</h6>
+      <p class="card-text">{{ question.createdDate }}</p>
+    </div>
+  </div>
 </template>
 
 <script>
 import axios from "axios";
 
 export default {
+  props: ['locationId'],
   data() {
     return {
       questions: [],
-      locationId: 1,
     };
   },
   methods: {
@@ -32,6 +46,10 @@ export default {
         )
       ).data;
     },
+  },watch: {
+    "locationId": function() {
+      this.loadQuestions();
+    }
   },
   beforeMount() {
     this.loadQuestions();
