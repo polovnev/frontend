@@ -3,12 +3,12 @@
  
   <ChooseLocation @set-location="setLocation" :isShowChooseLocation="isShowChooseLocation" />
   Локация {{ locationName }}
-  <ViewQuestions :locationId="locationId"/>
+  <ViewQuestionsAndResponses :locationId="locationId"/>
 </template>
 
 <script>
 import ChooseLocation from "./components/ChooseLocation.vue";
-import ViewQuestions from "./components/ViewQuestions.vue";
+import ViewQuestionsAndResponses from "./components/ViewQuestionsAndResponses.vue"
 import { useCookies } from "vue3-cookies";
 
 export default {
@@ -19,7 +19,7 @@ export default {
   },
   components: {
     ChooseLocation,
-    ViewQuestions,
+    ViewQuestionsAndResponses,
   },
   data() {
     return {
