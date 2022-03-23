@@ -1,15 +1,11 @@
 <template>
-<a class="btn btn-info btn-sm " @click="this.isShowChooseLocation = true" role="button">Локация</a>
- 
-  <ChooseLocation @set-location="setLocation" :isShowChooseLocation="isShowChooseLocation" />
-  Локация {{ locationName }}
-  <ViewQuestionsAndResponses :locationId="locationId"/>
+<ViewHeader/>
+<router-view/>
 </template>
 
 <script>
-import ChooseLocation from "./components/ChooseLocation.vue";
-import ViewQuestionsAndResponses from "./components/ViewQuestionsAndResponses.vue"
 import { useCookies } from "vue3-cookies";
+import ViewHeader from "./components/ViewHeader.vue"
 
 export default {
   name: "App",
@@ -18,13 +14,10 @@ export default {
     return { cookies };
   },
   components: {
-    ChooseLocation,
-    ViewQuestionsAndResponses,
+    ViewHeader
   },
   data() {
     return {
-      locationId: 0,
-      locationName: "",
       isShowChooseLocation: false,
     };
   },
@@ -34,7 +27,6 @@ export default {
       this.locationName = locationName;
       this.cookies.set("locationId", locationId);
       this.cookies.set("locationName", locationName);
-      this.isShowChooseLocation = false;
     },
   },
   beforeMount() {
@@ -43,6 +35,7 @@ export default {
     if (!(locationId === null) && !(locationName === null)) {
       this.locationId = locationId;
       this.locationName = locationName;
+      //this.$router.push({name: "ViewQuestionsAndResponses", params:{locationId: this.locationId}})
     } else {
       this.isShowChooseLocation = true;
     }

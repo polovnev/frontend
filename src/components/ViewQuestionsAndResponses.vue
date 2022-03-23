@@ -8,7 +8,6 @@
     :isShowResponses="isShowResponses"
     :question="question"
     :responses="responses"
-    @click-back-to-questions="clickBackToQuestions"
   />
 </template>
 
@@ -16,12 +15,16 @@
 import ViewQuestions from "./ViewQuestions.vue";
 import ViewResponses from "./ViewResponses.vue";
 import axios from "axios";
+import { useCookies } from "vue3-cookies";
 
 export default {
-  props: ["locationId"],
   components: {
     ViewQuestions,
     ViewResponses,
+  },
+  setup() {
+    const { cookies } = useCookies();
+    return { cookies };
   },
   data() {
     return {
@@ -33,7 +36,7 @@ export default {
     };
   },
   methods: {
-    async loadQuestions() {
+    async loadQuestions(locationId) {
       let axiosConfig = {
         headers: {
           "Content-Type": "application/json;charset=UTF-8",
@@ -43,7 +46,7 @@ export default {
         await axios.post(
           "http://localhost:8001/question/find",
           {
-            locationId: this.locationId,
+            locationId: locationId,
           },
           axiosConfig
         )
@@ -73,18 +76,19 @@ export default {
       this.isShowResponses = false;
     },
   },
-  watch: {
-    locationId: function () {
-      this.loadQuestions();
-    },
-    question: function () {
-      this.loadResponses();
-    },
-  },
   beforeMount() {
-    if (this.locationId != 0) {
-      this.loadQuestions();
+    let locationId = this.$route.query.locationId;
+    if (locationId == null) {
+      locationId = this.cookies.get("locationId");
+      this.$router.push({
+        name: "ViewQuestionsAndResponses",
+        query: { locationId: locationId },
+      });
     }
+    if (locationId == null) {
+      this.$router.push({ name: "ChooseLocation" });
+    }
+    this.loadQuestions(locationId);
   },
 };
 </script>

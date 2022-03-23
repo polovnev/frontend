@@ -1,6 +1,15 @@
 <template>
-
-  <section class="vh-100" style="background-color: #2779e2; position: fixed; top: 0; left: 0; width:100%; z-index: 1" v-if="isShowChooseLocation">
+  <section
+    class="vh-100"
+    style="
+      background-color: #2779e2;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1;
+    "
+  >
     <div class="container h-100">
       <div class="row d-flex justify-content-center align-items-center h-100">
         <div class="col-xl-9">
@@ -63,14 +72,9 @@ export default {
       isShowLocations: false,
     };
   },
-  props: {
-    isShowChooseLocation: Boolean
-  },
   methods: {
     async loadCountries() {
-      this.countries = (
-        await axios.get("http://localhost:8001/country")
-      ).data;
+      this.countries = (await axios.get("http://localhost:8001/country")).data;
     },
     async loadLocations(event) {
       let countryId = event.target.value;
@@ -83,8 +87,11 @@ export default {
     },
     setLocation(event) {
       let locationId = event.target.value;
-      let locationName = this.locations.find((x) => x.id == locationId).name;
-      this.$emit("set-location", locationId, locationName);
+      //  let locationName = this.locations.find((x) => x.id == locationId).name;
+      this.$router.push({
+        name: "ViewQuestionsAndResponses",
+        query: { locationId: locationId },
+      });
     },
   },
   beforeMount() {
