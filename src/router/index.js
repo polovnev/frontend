@@ -29,17 +29,15 @@ const routes = [
     component: ViewHeader,
     children: [
       {
-        path: "/question/:pathMatch(.*)*",
+        path: "/question",
         name: "ViewQuestions",
         component: ViewQuestions,
-        children: [
-          {
-            path: ":id",
-            name: "ViewResponses",
-            component: ViewResponses
-          }
-        ]
       },
+      {
+        path: "/question/:id",
+        name: "ViewResponses",
+        component: ViewResponses
+      }
     ]
   }
   

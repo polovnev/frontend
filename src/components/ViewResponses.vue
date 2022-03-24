@@ -1,5 +1,5 @@
 <template>
-  <div>Назад</div>
+  <router-link :to="{name: 'ViewQuestions', query: {locationId: this.locationId}}"><div>Назад</div></router-link>
   Добавить ответ
   <div>
     <div class="card-body">
@@ -13,17 +13,19 @@
       <h6 class="card-subtitle mb-2 text-muted">{{ question.authorId }}</h6>
       <p class="card-text">{{ question.createdDate }}</p>
     </div>
+
     <div
       v-for="response in question.responses"
       :key="response.id"
       class="card"
       style="width: 70rem"
     >
-      <div class="card-body">
-        <h5 class="card-title">{{ response.text }}</h5>
-        <h6 class="card-subtitle mb-2 text-muted">{{ response.authorId }}</h6>
-        <p class="card-text">{{ response.isResponse }}</p>
-      </div>
+
+        <div class="card-body">
+          <h5 class="card-title">{{ response.text }}</h5>
+          <h6 class="card-subtitle mb-2 text-muted">{{ response.authorId }}</h6>
+          <p class="card-text">{{ response.isResponse }}</p>
+        </div>
     </div>
   </div>
 </template>
@@ -32,10 +34,11 @@
 import axios from "axios";
 
 export default {
+  props: ["locationId"],
   data() {
     return {
       question: null,
-    }
+    };
   },
   methods: {
     async loadQuestionWithResponses(questionId) {

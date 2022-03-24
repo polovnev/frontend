@@ -44,15 +44,15 @@ export default {
 
     if (this.locationId == null) {
       this.locationId = this.cookies.get("locationId");
+      this.$router.push({
+      name: "ViewQuestions",
+      query: { locationId: this.locationId },
+    });
     }
     if (this.locationId == null) {
       this.$router.push({ name: "ChooseLocation" });
     }
     this.setLocationName();
-    this.$router.push({
-      name: "ViewQuestions",
-      query: { locationId: this.locationId },
-    });
   },
 };
 </script>

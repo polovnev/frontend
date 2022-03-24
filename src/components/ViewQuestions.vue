@@ -7,17 +7,19 @@
       class="card"
       style="width: 70rem"
     >
-      <div class="card-body">
-        <span
-          v-for="tag in question.tags"
-          :key="tag.id"
-          class="badge bg-secondary"
-          >{{ tag.text }}</span
-        >
-        <h5 class="card-title">{{ question.text }}</h5>
-        <h6 class="card-subtitle mb-2 text-muted">{{ question.authorId }}</h6>
-        <p class="card-text">{{ question.createdDate }}</p>
-      </div>
+      <router-link :to="{ name: 'ViewResponses', params: { id: question.id }, query: {locationId: this.locationId} }">
+        <div class="card-body">
+          <span
+            v-for="tag in question.tags"
+            :key="tag.id"
+            class="badge bg-secondary"
+            >{{ tag.text }}</span
+          >
+          <h5 class="card-title">{{ question.text }}</h5>
+          <h6 class="card-subtitle mb-2 text-muted">{{ question.authorId }}</h6>
+          <p class="card-text">{{ question.createdDate }}</p>
+        </div>
+      </router-link>
     </div>
   </div>
 </template>
@@ -30,7 +32,7 @@ export default {
   data() {
     return {
       questions: [],
-    }
+    };
   },
   methods: {
     async loadQuestions() {
