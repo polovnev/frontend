@@ -1,15 +1,13 @@
 import { createWebHistory, createRouter } from "vue-router";
-import ViewQuestionsAndResponses from "../components/ViewQuestionsAndResponses.vue"
+import ViewQuestions from "../components/ViewQuestions.vue"
 import ChooseLocation from "../components/ChooseLocation.vue"
 import ViewLogin from "../components/ViewLogin.vue"
 import ViewRegistration from "../components/ViewRegistration.vue"
+import ViewResponses from "../components/ViewResponses.vue"
+import ViewHeader from "../components/ViewHeader.vue"
 
 const routes = [
-  {
-    path: "/question",
-    name: "ViewQuestionsAndResponses",
-    component: ViewQuestionsAndResponses,
-  },
+
   {
     path: "/chooseLocation",
     name: "ChooseLocation",
@@ -25,6 +23,26 @@ const routes = [
     name: "ViewRegistration",
     component: ViewRegistration,
   },
+  {
+    path: "/:pathMatch(.*)*",
+    name: "Header",
+    component: ViewHeader,
+    children: [
+      {
+        path: "/question/:pathMatch(.*)*",
+        name: "ViewQuestions",
+        component: ViewQuestions,
+        children: [
+          {
+            path: ":id",
+            name: "ViewResponses",
+            component: ViewResponses
+          }
+        ]
+      },
+    ]
+  }
+  
 
 ];
 

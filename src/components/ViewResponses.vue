@@ -1,7 +1,7 @@
 <template>
-  <div @click="clickBackToQuestions">Назад</div>
+  <div>Назад</div>
   Добавить ответ
-  <div v-if="isShowResponses">
+  <div>
     <div class="card-body">
       <span
         v-for="tag in question.tags"
@@ -14,7 +14,7 @@
       <p class="card-text">{{ question.createdDate }}</p>
     </div>
     <div
-      v-for="response in responses"
+      v-for="response in question.responses"
       :key="response.id"
       class="card"
       style="width: 70rem"
@@ -29,12 +29,32 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
-  props: ["question", "responses", "isShowResponses"],
+  data() {
+    return {
+      question: null,
+    }
+  },
   methods: {
-    clickBackToQuestions() {
-      this.$emit("click-back-to-questions");
+    async loadQuestionWithResponses(questionId) {
+      let axiosConfig = {
+        headers: {
+          "Content-Type": "application/json;charset=UTF-8",
+        },
+      };
+      this.question = (
+        await axios.get(
+          "http://localhost:8001/question/" + questionId,
+          axiosConfig
+        )
+      ).data;
     },
+  },
+  beforeMount() {
+    let questionId = this.$route.params.id;
+    this.question = this.loadQuestionWithResponses(questionId);
   },
 };
 </script>

@@ -64,12 +64,19 @@
 
 <script>
 import axios from "axios";
+import { useCookies } from "vue3-cookies";
+
 export default {
+  setup() {
+    const { cookies } = useCookies();
+    return { cookies };
+  },
   data() {
     return {
       countries: [],
       locations: [],
       isShowLocations: false,
+      locationId: 0,
     };
   },
   methods: {
@@ -85,12 +92,20 @@ export default {
       ).data;
       this.isShowLocations = true;
     },
+    checkLocation(location) {
+      console.log(location);
+      return location.id == this.locationId;
+    },
     setLocation(event) {
-      let locationId = event.target.value;
-      //  let locationName = this.locations.find((x) => x.id == locationId).name;
+      this.locationId = event.target.value;
+      this.cookies.set("locationId", this.locationId);
+
+      let locationName = this.locations.find(this.checkLocation).name;
+      this.cookies.set("locationName", locationName);
+
       this.$router.push({
-        name: "ViewQuestionsAndResponses",
-        query: { locationId: locationId },
+        name: "ViewQuestions",
+        query: { locationId: this.locationId },
       });
     },
   },

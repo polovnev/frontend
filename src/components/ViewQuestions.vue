@@ -1,12 +1,11 @@
 <template>
-  <div v-if="isShowQuestions">
+  <div>
     Добавить вопрос
     <div
       v-for="question in questions"
       :key="question.id"
       class="card"
       style="width: 70rem"
-      @click="clickOnQuestion(question)"
     >
       <div class="card-body">
         <span
@@ -24,12 +23,35 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
-  props: ["locationId", "isShowQuestions", "questions"],
+  props: ["locationId"],
+  data() {
+    return {
+      questions: [],
+    }
+  },
   methods: {
-    clickOnQuestion(question) {
-      this.$emit("click-on-question", question);
+    async loadQuestions() {
+      let axiosConfig = {
+        headers: {
+          "Content-Type": "application/json;charset=UTF-8",
+        },
+      };
+      this.questions = (
+        await axios.post(
+          "http://localhost:8001/question/find",
+          {
+            locationId: this.locationId,
+          },
+          axiosConfig
+        )
+      ).data;
     },
+  },
+  beforeMount() {
+    this.loadQuestions();
   },
 };
 </script>
