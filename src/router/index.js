@@ -6,6 +6,7 @@ import ViewRegistration from "../components/ViewRegistration.vue"
 import ViewResponses from "../components/ViewResponses.vue"
 import ViewHeader from "../components/ViewHeader.vue"
 import ViewAddQuestion from "../components/ViewAddQuestion.vue"
+import ViewAddResponse from "../components/ViewAddResponse.vue"
 
 
 const routes = [
@@ -25,14 +26,14 @@ const routes = [
     component: ViewHeader,
     children: [
       {
-        path: "/question",
-        name: "ViewQuestions",
-        component: ViewQuestions,
-      },
-      {
         path: "/question/:id",
         name: "ViewResponses",
         component: ViewResponses
+      },
+      {
+        path: "/question",
+        name: "ViewQuestions",
+        component: ViewQuestions,
       },
       {
         path: "/login",
@@ -44,10 +45,13 @@ const routes = [
         name: "ViewAddQuestion",
         component: ViewAddQuestion,
       },
+      {
+        path: "/addResponse",
+        name: "ViewAddResponse",
+        component: ViewAddResponse,
+      },
     ]
   }
-  
-
 ];
 
 const router = createRouter({

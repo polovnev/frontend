@@ -1,6 +1,15 @@
 <template>
-  <router-link :to="{name: 'ViewQuestions', query: {locationId: this.locationId}}"><div>Назад</div></router-link>
-  Добавить ответ
+  <router-link
+    :to="{
+      name: 'ViewQuestions',
+      query: {
+        locationId: this.locationId,
+      },
+    }"
+  >
+    <div>Назад</div>
+  </router-link>
+  <div @click="addResponse">Добавить ответ</div>
   <div>
     <div class="card-body">
       <span
@@ -20,12 +29,11 @@
       class="card"
       style="width: 70rem"
     >
-
-        <div class="card-body">
-          <h5 class="card-title">{{ response.text }}</h5>
-          <h6 class="card-subtitle mb-2 text-muted">{{ response.authorId }}</h6>
-          <p class="card-text">{{ response.isResponse }}</p>
-        </div>
+      <div class="card-body">
+        <h5 class="card-title">{{ response.text }}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">{{ response.authorId }}</h6>
+        <p class="card-text">{{ response.isResponse }}</p>
+      </div>
     </div>
   </div>
 </template>
@@ -34,13 +42,28 @@
 import axios from "axios";
 
 export default {
-  props: ["locationId"],
+  props: ["locationId", "user"],
   data() {
     return {
       question: null,
     };
   },
   methods: {
+    addResponse() {
+      if (this.user.username != null) {
+        this.$router.push({
+          name: "ViewAddResponse",
+          query: {
+            locationId: this.locationId,
+            questionId: this.question.id,
+          },
+        });
+      } else {
+        this.$router.push({
+          name: "ViewLogin",
+        });
+      }
+    },
     async loadQuestionWithResponses(questionId) {
       let axiosConfig = {
         headers: {
