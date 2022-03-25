@@ -1,6 +1,8 @@
 <template>
   <div>
-    Локация: {{ this.locationName }}
+    Локация: {{ this.locationName }}<br>
+    Пользователь: {{this.user.username}}
+
     <router-link :to="{ name: 'ChooseLocation' }">
       <a class="btn btn-info btn-sm" role="button">Локация</a>
     </router-link>
@@ -12,7 +14,7 @@
       <a class="btn btn-info btn-sm" role="button">Регистрация</a>
     </router-link>
   </div>
-  <router-view :locationId="locationId" />
+  <router-view :locationId="locationId" :user="user" @login="setUsernameAndJwt"/>
 </template>
 
 <script>
@@ -24,6 +26,10 @@ export default {
     return {
       locationId: null,
       locationName: null,
+      user: {
+        username: null,
+        jwt: null
+      }
     };
   },
   setup() {
@@ -37,6 +43,10 @@ export default {
           "http://localhost:8001/country/null/location/" + this.locationId
         )
       ).data.name;
+    },
+    setUsernameAndJwt(username, jwt) {
+      this.user.username = username;
+      this.user.jwt = jwt;
     },
   },
   beforeMount() {

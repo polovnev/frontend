@@ -14,11 +14,6 @@ const routes = [
     component: ChooseLocation,
   },
   {
-    path: "/login",
-    name: "ViewLogin",
-    component: ViewLogin,
-  },
-  {
     path: "/registration",
     name: "ViewRegistration",
     component: ViewRegistration,
@@ -37,7 +32,12 @@ const routes = [
         path: "/question/:id",
         name: "ViewResponses",
         component: ViewResponses
-      }
+      },
+      {
+        path: "/login",
+        name: "ViewLogin",
+        component: ViewLogin,
+      },
     ]
   }
   
