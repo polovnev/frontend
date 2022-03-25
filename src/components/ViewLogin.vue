@@ -31,9 +31,13 @@
 
 <script>
 import axios from "axios";
+import { useCookies } from "vue3-cookies";
 
 export default {
-  setup() {},
+  setup() {
+    const { cookies } = useCookies();
+    return { cookies };
+  },
   data() {
     return {
       username: null,
@@ -41,6 +45,13 @@ export default {
     };
   },
   methods: {
+    saveToCookiesAndPushToQuestions(response) {
+      let username = response.data.username;
+      let jwt = response.data.jwt;
+      this.cookies.set("username", username);
+      this.cookies.set("jwt", jwt);
+      this.$emit("login", username, jwt);
+    },
     login() {
       let axiosConfig = {
         headers: {
@@ -48,16 +59,16 @@ export default {
         },
       };
       let requestBody = {
-          "username": this.username,
-          "password": this.password
-      }
+        username: this.username,
+        password: this.password,
+      };
       axios
         .post("http://localhost:8001/login", requestBody, axiosConfig)
-        .then((response) => (this.$emit("login", response.data.username, response.data.jwt)))
-        .catch(error => {
-            alert("Не верный пароль или имя пользователя");
-            console.log(error);
-})
+        .then((response) => this.saveToCookiesAndPushToQuestions(response))
+        .catch((error) => {
+          alert("Не верный пароль или имя пользователя");
+          console.log(error);
+        });
     },
   },
 };

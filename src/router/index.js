@@ -5,9 +5,10 @@ import ViewLogin from "../components/ViewLogin.vue"
 import ViewRegistration from "../components/ViewRegistration.vue"
 import ViewResponses from "../components/ViewResponses.vue"
 import ViewHeader from "../components/ViewHeader.vue"
+import ViewAddQuestion from "../components/ViewAddQuestion.vue"
+
 
 const routes = [
-
   {
     path: "/chooseLocation",
     name: "ChooseLocation",
@@ -37,6 +38,11 @@ const routes = [
         path: "/login",
         name: "ViewLogin",
         component: ViewLogin,
+      },
+      {
+        path: "/addQuestion",
+        name: "ViewAddQuestion",
+        component: ViewAddQuestion,
       },
     ]
   }

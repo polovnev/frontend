@@ -1,13 +1,19 @@
 <template>
   <div>
-    Добавить вопрос
+    <div @click="addQuestion">Добавить вопрос</div>
     <div
       v-for="question in questions"
       :key="question.id"
       class="card"
       style="width: 70rem"
     >
-      <router-link :to="{ name: 'ViewResponses', params: { id: question.id }, query: {locationId: this.locationId} }">
+      <router-link
+        :to="{
+          name: 'ViewResponses',
+          params: { id: question.id },
+          query: { locationId: this.locationId },
+        }"
+      >
         <div class="card-body">
           <span
             v-for="tag in question.tags"
@@ -28,25 +34,37 @@
 import axios from "axios";
 
 export default {
-  props: ["locationId"],
+  props: ["locationId", "user"],
   data() {
     return {
       questions: [],
     };
   },
   methods: {
+    addQuestion() {
+      if (this.user.username != null) {
+        this.$router.push({
+          name: "ViewAddQuestion",
+        });
+      } else {
+        this.$router.push({
+          name: "ViewLogin",
+        });
+      }
+    },
     async loadQuestions() {
       let axiosConfig = {
         headers: {
           "Content-Type": "application/json;charset=UTF-8",
         },
       };
+      let requestBody = {
+        locationId: this.locationId,
+      };
       this.questions = (
         await axios.post(
           "http://localhost:8001/question/find",
-          {
-            locationId: this.locationId,
-          },
+          requestBody,
           axiosConfig
         )
       ).data;
