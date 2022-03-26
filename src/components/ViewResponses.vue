@@ -9,7 +9,7 @@
   >
     <div>Назад</div>
   </router-link>
-  <div @click="addResponse">Добавить ответ</div>
+
   <div>
     <div class="card-body">
       <span
@@ -22,6 +22,12 @@
       <h6 class="card-subtitle mb-2 text-muted">{{ question.authorId }}</h6>
       <p class="card-text">{{ question.createdDate }}</p>
     </div>
+
+    <ViewAddResponse
+      :locationId="this.locationId"
+      :questionId="this.question.id"
+      :user="this.user"
+    />
 
     <div
       v-for="response in question.responses"
@@ -40,6 +46,7 @@
 
 <script>
 import axios from "axios";
+import ViewAddResponse from "../components/ViewAddResponse.vue";
 
 export default {
   props: ["locationId", "user"],
@@ -48,22 +55,10 @@ export default {
       question: null,
     };
   },
+  components: {
+    ViewAddResponse,
+  },
   methods: {
-    addResponse() {
-      if (this.user.username != null) {
-        this.$router.push({
-          name: "ViewAddResponse",
-          query: {
-            locationId: this.locationId,
-            questionId: this.question.id,
-          },
-        });
-      } else {
-        this.$router.push({
-          name: "ViewLogin",
-        });
-      }
-    },
     async loadQuestionWithResponses(questionId) {
       let axiosConfig = {
         headers: {

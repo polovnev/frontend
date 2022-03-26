@@ -1,26 +1,44 @@
 <template>
-  <router-link
-    :to="{
-      name: 'ViewResponses',
-      params: {
-        id: this.questionId,
-      },
-      query: { locationId: this.locationId },
-    }"
-  >
-    <div>Назад</div>
-  </router-link>
-  Add Response
+  <div v-show="this.isAuthenticated">
+    <input type="text" v-model="text" />
+    <button @click="sendAddResponse">Отправить</button>
+  </div>
+  <div v-show="!this.isAuthenticated">Войдите чтобы оставить ответ</div>
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
-  props: ["locationId"],
+  props: ["locationId", "questionId", "user"],
   setup() {},
   data() {
     return {
-      questionId: this.$route.query.questionId,
+      isAuthenticated: this.user.jwt != null,
+      text: "",
     };
+  },
+  methods: {
+    sendAddResponse() {
+      let url =
+        "http://localhost:8001/question/" + this.questionId + "/response";
+      let axiosConfig = {
+        headers: {
+          "Content-Type": "application/json;charset=UTF-8",
+          Authorization: "Bearer " + this.user.jwt,
+        },
+      };
+      let requestBody = {
+        text: this.text,
+      };
+      axios
+        .post(url, requestBody, axiosConfig)
+        .then(alert("Ответ добавлен"))
+        .catch((error) => {
+          alert("Что-то пошло не так");
+          console.log(error);
+        });
+    },
   },
 };
 </script>

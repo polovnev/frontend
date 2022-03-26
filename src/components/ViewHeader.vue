@@ -7,7 +7,7 @@
     </router-link>
     <div v-if="!isAuthenticated">
       <router-link :to="{ name: 'ViewLogin' }">
-        <a class="btn btn-info btn-sm" role="button">Логин</a>
+        <a class="btn btn-info btn-sm" role="button">Войти</a>
       </router-link>
     </div>
     <div v-if="isAuthenticated">
