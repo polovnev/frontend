@@ -12,7 +12,9 @@
     </div>
     <div v-if="isAuthenticated">
       Пользователь: {{ this.user.username }}
-      <a @click="this.logout()" class="btn btn-info btn-sm" role="button">Выйти</a>
+      <a @click="this.logout()" class="btn btn-info btn-sm" role="button">
+        Выйти
+      </a>
     </div>
     <div v-if="!isAuthenticated">
       <router-link :to="{ name: 'ViewRegistration' }">
@@ -24,6 +26,7 @@
     :locationId="locationId"
     :user="user"
     @login="setUsernameAndJwt"
+    @question-added="questionAdded"
   />
 </template>
 
@@ -48,6 +51,10 @@ export default {
     return { cookies };
   },
   methods: {
+    questionAdded() {
+      alert("Вопрос добавлен!");
+        this.moveToQuestions();
+    },
     async setLocationName() {
       this.locationName = (
         await axios.get(
@@ -64,17 +71,23 @@ export default {
         query: { locationId: this.locationId },
       });
     },
+    moveToChooseLocation() {
+      this.$router.push({ name: "ChooseLocation" });
+    },
     setLocation() {
       this.locationId = this.$route.query.locationId;
 
       if (this.locationId == null) {
         this.locationId = this.cookies.get("locationId");
-        this.moveToQuestions();
       }
       if (this.locationId == null) {
-        this.$router.push({ name: "ChooseLocation" });
+        this.moveToChooseLocation();
+      } else {
+        this.moveToQuestions();
       }
-      this.setLocationName();
+      if (this.locationId != null) {
+        this.setLocationName();
+      }
     },
     setUsernameAndJwt(username, jwt) {
       this.user.username = username;
@@ -85,8 +98,6 @@ export default {
     setUsernameAndJwtFromCookies() {
       this.user.username = this.cookies.get("username");
       this.user.jwt = this.cookies.get("jwt");
-      this.isAuthenticated = true;
-      this.moveToQuestions();
     },
     logout() {
       this.user.username = null;
@@ -94,11 +105,12 @@ export default {
       this.cookies.remove("username");
       this.cookies.remove("jwt");
       this.isAuthenticated = false;
+      this.moveToQuestions();
     },
   },
   beforeMount() {
-    this.setLocation();
     this.setUsernameAndJwtFromCookies();
+    this.setLocation();
     this.isAuthenticated = this.checkIsAuthenticated();
   },
 };
