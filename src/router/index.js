@@ -6,6 +6,7 @@ import ViewRegistration from "../components/ViewRegistration.vue"
 import ViewResponses from "../components/ViewResponses.vue"
 import ViewHeader from "../components/ViewHeader.vue"
 import ViewAddQuestion from "../components/ViewAddQuestion.vue"
+import ConfirmRegistration from "../components/ConfirmRegistration.vue"
 
 
 const routes = [
@@ -25,6 +26,11 @@ const routes = [
     component: ViewHeader,
     children: [
       {
+        path: "/confirmRegistration",
+        name: "ConfirmRegistration",
+        component: ConfirmRegistration,
+      },
+      {
         path: "/question/:id",
         name: "ViewResponses",
         component: ViewResponses
@@ -43,7 +49,7 @@ const routes = [
         path: "/addQuestion",
         name: "ViewAddQuestion",
         component: ViewAddQuestion,
-      }
+      },
     ]
   }
 ];

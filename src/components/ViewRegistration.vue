@@ -47,22 +47,7 @@ export default {
         });
     },
     afterSuccessRegistration() {
-      let axiosConfig = {
-        headers: {
-          "Content-Type": "application/json;charset=UTF-8",
-        },
-      };
-      let requestBody = {
-        username: this.username,
-        password: this.password,
-      };
-      axios
-        .post("http://localhost:8001/login", requestBody, axiosConfig)
-        .then((response) => this.saveToCookiesAndPushToQuestions(response))
-        .catch((error) => {
-          alert("Не верный пароль или имя пользователя");
-          console.log(error);
-        });
+        alert("На вашу почту " + this.email + " выслано письмо с ссылкой для активации!")
     },
     saveToCookiesAndPushToQuestions(response) {
       let username = response.data.username;

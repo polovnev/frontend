@@ -76,15 +76,15 @@ export default {
     },
     setLocation() {
       this.locationId = this.$route.query.locationId;
-
+    
       if (this.locationId == null) {
         this.locationId = this.cookies.get("locationId");
       }
       if (this.locationId == null) {
         this.moveToChooseLocation();
-      } else {
+      } /* else {
         this.moveToQuestions();
-      }
+      } */
       if (this.locationId != null) {
         this.setLocationName();
       }
