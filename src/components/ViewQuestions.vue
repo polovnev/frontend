@@ -34,7 +34,7 @@
 import axios from "axios";
 
 export default {
-  props: ["locationId", "user"],
+  props: ["locationId", "user", "tags"],
   data() {
     return {
       questions: [],
@@ -60,6 +60,7 @@ export default {
       };
       let requestBody = {
         locationId: this.locationId,
+        tags: this.tags
       };
       this.questions = (
         await axios.post(

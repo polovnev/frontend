@@ -25,6 +25,7 @@
   <router-view
     :locationId="locationId"
     :user="user"
+    :tags="tags"
     @login="setUsernameAndJwt"
     @question-added="questionAdded"
   />
@@ -40,6 +41,7 @@ export default {
       locationId: null,
       locationName: null,
       isAuthenticated: null,
+      tags: null,
       user: {
         username: null,
         jwt: null,
@@ -76,7 +78,7 @@ export default {
     },
     setLocation() {
       this.locationId = this.$route.query.locationId;
-    
+      this.tags = this.$route.query.tags.split(',').map(x => +x);
       if (this.locationId == null) {
         this.locationId = this.cookies.get("locationId");
       }
