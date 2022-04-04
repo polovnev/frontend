@@ -78,7 +78,6 @@ export default {
     },
     setLocation() {
       this.locationId = this.$route.query.locationId;
-      this.tags = this.$route.query.tags.split(',').map(x => +x);
       if (this.locationId == null) {
         this.locationId = this.cookies.get("locationId");
       }
@@ -91,6 +90,15 @@ export default {
         this.setLocationName();
       }
     },
+    
+    setTags() {
+      let tagsString = this.$route.query.tags;
+      if(tagsString != null) {
+        this.tags = tagsString.split(',').map(x => +x);
+      }
+      alert(this.tags);
+    },
+
     setUsernameAndJwt(username, jwt) {
       this.user.username = username;
       this.user.jwt = jwt;
@@ -113,6 +121,7 @@ export default {
   beforeMount() {
     this.setUsernameAndJwtFromCookies();
     this.setLocation();
+    this.setTags();
     this.isAuthenticated = this.checkIsAuthenticated();
   },
 };
