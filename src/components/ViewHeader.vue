@@ -55,7 +55,7 @@ export default {
   methods: {
     questionAdded() {
       alert("Вопрос добавлен!");
-        this.moveToQuestions();
+      this.moveToQuestions();
     },
     async setLocationName() {
       this.locationName = (
@@ -79,24 +79,22 @@ export default {
     setLocation() {
       this.locationId = this.$route.query.locationId;
       if (this.locationId == null) {
-        this.locationId = this.cookies.get("locationId");
-      }
-      if (this.locationId == null) {
-        this.moveToChooseLocation();
-      } /* else {
-        this.moveToQuestions();
-      } */
-      if (this.locationId != null) {
+        let locationIdFromCookies = this.cookies.get("locationId");
+        if (locationIdFromCookies != null) {
+          this.locationId = locationIdFromCookies;
+          this.moveToQuestions();
+        } else {
+          this.moveToChooseLocation();
+        }
+      } 
         this.setLocationName();
-      }
     },
-    
+
     setTags() {
       let tagsString = this.$route.query.tags;
-      if(tagsString != null) {
-        this.tags = tagsString.split(',').map(x => +x);
+      if (tagsString != null) {
+        this.tags = tagsString.split(",").map((x) => +x);
       }
-      alert(this.tags);
     },
 
     setUsernameAndJwt(username, jwt) {

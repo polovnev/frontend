@@ -31,14 +31,14 @@ const routes = [
         component: ConfirmRegistration,
       },
       {
-        path: "/question/:id",
-        name: "ViewResponses",
-        component: ViewResponses
-      },
-      {
         path: "/question",
         name: "ViewQuestions",
         component: ViewQuestions,
+      },
+      {
+        path: "/question/:id",
+        name: "ViewResponses",
+        component: ViewResponses
       },
       {
         path: "/login",
@@ -49,6 +49,12 @@ const routes = [
         path: "/addQuestion",
         name: "ViewAddQuestion",
         component: ViewAddQuestion,
+      },
+      {
+        path: "/:pathMatch(.*)*",
+        redirect: {
+          name: "ViewQuestions"
+        }
       },
     ]
   }
