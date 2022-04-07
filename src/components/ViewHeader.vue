@@ -22,6 +22,7 @@
       </router-link>
     </div>
   </div>
+  <ChooseTags />
   <router-view
     :locationId="locationId"
     :user="user"
@@ -34,8 +35,12 @@
 <script>
 import { useCookies } from "vue3-cookies";
 import axios from "axios";
+import ChooseTags from "../components/ChooseTags.vue";
 
 export default {
+  components: {
+    ChooseTags,
+  },
   data() {
     return {
       locationId: null,
@@ -86,8 +91,8 @@ export default {
         } else {
           this.moveToChooseLocation();
         }
-      } 
-        this.setLocationName();
+      }
+      this.setLocationName();
     },
 
     setTags() {
