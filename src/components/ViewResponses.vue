@@ -27,6 +27,7 @@
       :locationId="this.locationId"
       :questionId="this.question.id"
       :user="this.user"
+      @response-added="responseAdded"
     />
 
     <div
@@ -52,6 +53,7 @@ export default {
   props: ["locationId", "user"],
   data() {
     return {
+      questionId: null,
       question: null,
     };
   },
@@ -59,23 +61,28 @@ export default {
     ViewAddResponse,
   },
   methods: {
-    async loadQuestionWithResponses(questionId) {
+    async loadQuestionWithResponses() {
       let axiosConfig = {
         headers: {
           "Content-Type": "application/json;charset=UTF-8",
         },
       };
+      let url = "http://localhost:8001/question/" + this.questionId;
       this.question = (
         await axios.get(
-          "http://localhost:8001/question/" + questionId,
+          url,
           axiosConfig
         )
       ).data;
     },
+    responseAdded() {
+      alert("Вопрос добавлен");
+      this.loadQuestionWithResponses();
+    }
   },
   beforeMount() {
-    let questionId = this.$route.params.id;
-    this.question = this.loadQuestionWithResponses(questionId);
+    this.questionId = this.$route.params.id;
+    this.loadQuestionWithResponses();
   },
 };
 </script>

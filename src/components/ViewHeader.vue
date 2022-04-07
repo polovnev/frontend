@@ -41,7 +41,7 @@ export default {
       locationId: null,
       locationName: null,
       isAuthenticated: null,
-      tags: null,
+      tags: [],
       user: {
         username: null,
         jwt: null,

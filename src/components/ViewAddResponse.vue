@@ -10,7 +10,7 @@
 import axios from "axios";
 
 export default {
-  props: ["locationId", "questionId", "user"],
+  props: ["questionId", "user"],
   setup() {},
   data() {
     return {
@@ -33,7 +33,10 @@ export default {
       };
       axios
         .post(url, requestBody, axiosConfig)
-        .then(alert("Ответ добавлен"))
+        .then(() => {
+          this.text = "";
+          this.$emit("response-added")
+          })
         .catch((error) => {
           alert("Что-то пошло не так");
           console.log(error);
