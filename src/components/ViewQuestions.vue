@@ -14,8 +14,7 @@
           query: { locationId: this.locationId },
         }"
       >
-    <ShowQuestion :question="question"/>
-
+        <ShowQuestion :question="question" />
       </router-link>
     </div>
   </div>
@@ -55,7 +54,7 @@ export default {
       };
       let requestBody = {
         locationId: this.locationId,
-        tags: this.tags
+        tags: this.tags,
       };
       this.questions = (
         await axios.post(
@@ -64,6 +63,11 @@ export default {
           axiosConfig
         )
       ).data;
+    },
+  },
+  watch: {
+    tags: function () {
+      this.loadQuestions();
     },
   },
   beforeMount() {

@@ -22,7 +22,7 @@
       </router-link>
     </div>
   </div>
-  <ChooseTags />
+  <ChooseTags @tags-choosed="tagsChoosed" />
   <router-view
     :locationId="locationId"
     :user="user"
@@ -75,7 +75,10 @@ export default {
     moveToQuestions() {
       this.$router.push({
         name: "ViewQuestions",
-        query: { locationId: this.locationId },
+        query: {
+          locationId: this.locationId,
+          tags: this.tags.toString(),
+        },
       });
     },
     moveToChooseLocation() {
@@ -118,6 +121,10 @@ export default {
       this.cookies.remove("username");
       this.cookies.remove("jwt");
       this.isAuthenticated = false;
+      this.moveToQuestions();
+    },
+    tagsChoosed(activeTags) {
+      this.tags = activeTags.map((tag) => tag.id);
       this.moveToQuestions();
     },
   },
