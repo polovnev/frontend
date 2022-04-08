@@ -11,17 +11,7 @@
   </router-link>
 
   <div>
-    <div class="card-body">
-      <span
-        v-for="tag in question.tags"
-        :key="tag.id"
-        class="badge bg-secondary"
-        >{{ tag.text }}</span
-      >
-      <h5 class="card-title">{{ question.text }}</h5>
-      <h6 class="card-subtitle mb-2 text-muted">{{ question.authorId }}</h6>
-      <p class="card-text">{{ question.createdDate }}</p>
-    </div>
+    <ShowQuestion :question="question"/>
 
     <ViewAddResponse
       :locationId="this.locationId"
@@ -48,6 +38,7 @@
 <script>
 import axios from "axios";
 import ViewAddResponse from "../components/ViewAddResponse.vue";
+import ShowQuestion from "../components/question/ShowQuestion.vue"
 
 export default {
   props: ["locationId", "user"],
@@ -59,6 +50,7 @@ export default {
   },
   components: {
     ViewAddResponse,
+    ShowQuestion,
   },
   methods: {
     async loadQuestionWithResponses() {

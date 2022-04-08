@@ -14,17 +14,8 @@
           query: { locationId: this.locationId },
         }"
       >
-        <div class="card-body">
-          <span
-            v-for="tag in question.tags"
-            :key="tag.id"
-            class="badge bg-secondary"
-            >{{ tag.text }}</span
-          >
-          <h5 class="card-title">{{ question.text }}</h5>
-          <h6 class="card-subtitle mb-2 text-muted">{{ question.authorId }}</h6>
-          <p class="card-text">{{ question.createdDate }}</p>
-        </div>
+    <ShowQuestion :question="question"/>
+
       </router-link>
     </div>
   </div>
@@ -32,6 +23,7 @@
 
 <script>
 import axios from "axios";
+import ShowQuestion from "../components/question/ShowQuestion.vue";
 
 export default {
   props: ["locationId", "user", "tags"],
@@ -39,6 +31,9 @@ export default {
     return {
       questions: [],
     };
+  },
+  components: {
+    ShowQuestion,
   },
   methods: {
     addQuestion() {
