@@ -43,6 +43,16 @@ export default {
         .get(url)
         .then((response) => {
           this.tags = response.data;
+
+          let tagsString = this.$route.query.tags;
+          if (tagsString) {
+            let tagIds = tagsString.split(",").map((x) => +x);
+            for (let i = 0; i < tagIds.length; i++) {
+              let tagId = tagIds[i];
+              let foundTag = this.tags.find((tag) => tag.id == tagId);
+              this.markActive(foundTag);
+            }
+          }
         })
         .catch((error) => {
           alert("Что-то пошло не так");
@@ -53,16 +63,23 @@ export default {
       if (this.activeTags.indexOf(tag) === -1) {
         this.activeTags.push(tag);
       }
+      const index = this.tags.indexOf(tag);
+      if (index > -1) {
+        this.tags.splice(index, 1);
+      }
     },
     removeFromActive(activeTag) {
       const index = this.activeTags.indexOf(activeTag);
       if (index > -1) {
-        this.activeTags.splice(index, 1); 
+        this.activeTags.splice(index, 1);
+      }
+      if (this.tags.indexOf(activeTag) === -1) {
+        this.tags.push(activeTag);
       }
     },
     applyTags() {
-        this.isChooseTags = false;
-        this.$emit("tags-choosed", this.activeTags);
+      this.isChooseTags = false;
+      this.$emit("tags-choosed", this.activeTags);
     },
   },
   beforeMount() {
