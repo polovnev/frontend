@@ -10,11 +10,10 @@
 import axios from "axios";
 
 export default {
-  props: ["questionId", "user"],
+  props: ["questionId", "user", "isAuthenticated"],
   setup() {},
   data() {
     return {
-      isAuthenticated: this.user.jwt != null,
       text: "",
     };
   },

@@ -37,7 +37,7 @@
 
               <hr class="mx-n3" />
 
-              <div class="row align-items-center py-3" v-if="isShowLocations">
+              <div class="row align-items-center py-3" v-show="isShowLocations">
                 <div class="col-md-3 ps-5">
                   <h6 class="mb-0">Локация</h6>
                 </div>

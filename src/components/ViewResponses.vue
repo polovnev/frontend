@@ -4,6 +4,7 @@
       name: 'ViewQuestions',
       query: {
         locationId: this.locationId,
+        tags: this.tags.query,
       },
     }"
   >
@@ -11,12 +12,13 @@
   </router-link>
 
   <div>
-    <ShowQuestion :question="question"/>
+    <ShowQuestion :question="question" />
 
     <ViewAddResponse
       :locationId="this.locationId"
-      :questionId="this.question.id"
+      :questionId="this.questionId"
       :user="this.user"
+      :isAuthenticated="isAuthenticated"
       @response-added="responseAdded"
     />
 
@@ -38,10 +40,10 @@
 <script>
 import axios from "axios";
 import ViewAddResponse from "../components/ViewAddResponse.vue";
-import ShowQuestion from "../components/question/ShowQuestion.vue"
+import ShowQuestion from "../components/question/ShowQuestion.vue";
 
 export default {
-  props: ["locationId", "user"],
+  props: ["locationId", "user", "tags", "isAuthenticated"],
   data() {
     return {
       questionId: null,
@@ -53,28 +55,35 @@ export default {
     ShowQuestion,
   },
   methods: {
-    async loadQuestionWithResponses() {
+    loadQuestionWithResponses() {
       let axiosConfig = {
         headers: {
           "Content-Type": "application/json;charset=UTF-8",
         },
       };
       let url = "http://localhost:8001/question/" + this.questionId;
-      this.question = (
-        await axios.get(
-          url,
-          axiosConfig
-        )
-      ).data;
+      axios
+        .get(url, axiosConfig)
+        .then((response) => {
+          this.question = response.data;
+        })
+        .catch((error) => {
+          alert("Ошибка загрузки вопроса");
+          console.log(error);
+        });
     },
     responseAdded() {
-      alert("Вопрос добавлен");
+      alert("Ответ добавлен");
       this.loadQuestionWithResponses();
-    }
+    },
   },
   beforeMount() {
+    console.log("View Responses before mount -- start");
     this.questionId = this.$route.params.id;
+    console.log("View Responses before mount questionId: "+ this.questionId);
+
     this.loadQuestionWithResponses();
+    console.log("View Responses before mount -- end");
   },
 };
 </script>

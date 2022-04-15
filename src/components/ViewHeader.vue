@@ -5,28 +5,29 @@
     <router-link :to="{ name: 'ChooseLocation' }">
       <a class="btn btn-info btn-sm" role="button">Локация</a>
     </router-link>
-    <div v-if="!isAuthenticated">
+    <div v-show="!isAuthenticated">
       <router-link :to="{ name: 'ViewLogin' }">
         <a class="btn btn-info btn-sm" role="button">Войти</a>
       </router-link>
     </div>
-    <div v-if="isAuthenticated">
+    <div v-show="isAuthenticated">
       Пользователь: {{ this.user.username }}
       <a @click="this.logout()" class="btn btn-info btn-sm" role="button">
         Выйти
       </a>
     </div>
-    <div v-if="!isAuthenticated">
+    <div v-show="!isAuthenticated">
       <router-link :to="{ name: 'ViewRegistration' }">
         <a class="btn btn-info btn-sm" role="button">Регистрация</a>
       </router-link>
     </div>
   </div>
-  <ChooseTags @tags-choosed="tagsChoosed" />
+  <ChooseTags @set-tags="setTags" />
   <router-view
     :locationId="locationId"
     :user="user"
     :tags="tags"
+    :isAuthenticated="isAuthenticated"
     @login="setUsernameAndJwt"
     @question-added="questionAdded"
   />
@@ -46,7 +47,7 @@ export default {
       locationId: null,
       locationName: null,
       isAuthenticated: null,
-      tags: [],
+      tags: null,
       user: {
         username: null,
         jwt: null,
@@ -58,6 +59,21 @@ export default {
     return { cookies };
   },
   methods: {
+    moveToQuestions() {
+      let tagsString;
+      if(this.tags) {
+        tagsString = this.tags.query;
+      } else {
+        tagsString = this.$route.query.tags;
+      }
+      this.$router.push({
+        name: "ViewQuestions",
+        query: {
+          locationId: this.locationId,
+          tags: tagsString,
+        },
+      });
+    },
     questionAdded() {
       alert("Вопрос добавлен!");
       this.moveToQuestions();
@@ -72,15 +88,6 @@ export default {
     checkIsAuthenticated() {
       return this.user.username != null && this.user.jwt != null;
     },
-    moveToQuestions() {
-      this.$router.push({
-        name: "ViewQuestions",
-        query: {
-          locationId: this.locationId,
-          tags: this.tags.toString(),
-        },
-      });
-    },
     moveToChooseLocation() {
       this.$router.push({ name: "ChooseLocation" });
     },
@@ -90,21 +97,12 @@ export default {
         let locationIdFromCookies = this.cookies.get("locationId");
         if (locationIdFromCookies != null) {
           this.locationId = locationIdFromCookies;
-          this.moveToQuestions();
         } else {
           this.moveToChooseLocation();
         }
       }
       this.setLocationName();
     },
-
-    setTags() {
-      let tagsString = this.$route.query.tags;
-      if (tagsString != null) {
-        this.tags = tagsString.split(",").map((x) => +x);
-      }
-    },
-
     setUsernameAndJwt(username, jwt) {
       this.user.username = username;
       this.user.jwt = jwt;
@@ -123,15 +121,13 @@ export default {
       this.isAuthenticated = false;
       this.moveToQuestions();
     },
-    tagsChoosed(activeTags) {
-      this.tags = activeTags.map((tag) => tag.id);
-      this.moveToQuestions();
+    setTags(tags) {
+      this.tags = tags;
     },
   },
   beforeMount() {
     this.setUsernameAndJwtFromCookies();
     this.setLocation();
-    this.setTags();
     this.isAuthenticated = this.checkIsAuthenticated();
   },
 };

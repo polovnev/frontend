@@ -11,7 +11,7 @@
         :to="{
           name: 'ViewResponses',
           params: { id: question.id },
-          query: { locationId: this.locationId },
+          query: { locationId: this.locationId, tags: this.tags.query },
         }"
       >
         <ShowQuestion :question="question" />
@@ -52,9 +52,13 @@ export default {
           "Content-Type": "application/json;charset=UTF-8",
         },
       };
+      let tagsArray = [];
+      if (this.$route.query.tags) {
+        tagsArray = this.$route.query.tags.split(",").map((x) => +x);
+      }
       let requestBody = {
         locationId: this.locationId,
-        tags: this.tags,
+        tags: tagsArray,
       };
       this.questions = (
         await axios.post(
@@ -66,7 +70,7 @@ export default {
     },
   },
   watch: {
-    tags: function () {
+    "$route.query": function () {
       this.loadQuestions();
     },
   },
