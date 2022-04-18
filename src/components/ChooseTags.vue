@@ -47,9 +47,9 @@ export default {
     generateQuery() {
       this.tags.query = this.tags.active.map((x) => x.id).join();
     },
-    loadTags() {
+    async loadTags() {
       let url = "http://localhost:8001/tag";
-      axios
+      await axios
         .get(url)
         .then((response) => {
           this.tags.all = response.data;

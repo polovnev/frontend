@@ -15,7 +15,6 @@
     <ShowQuestion :question="question" />
 
     <ViewAddResponse
-      :locationId="this.locationId"
       :questionId="this.questionId"
       :user="this.user"
       :isAuthenticated="isAuthenticated"
@@ -55,14 +54,14 @@ export default {
     ShowQuestion,
   },
   methods: {
-    loadQuestionWithResponses() {
+    async loadQuestionWithResponses() {
       let axiosConfig = {
         headers: {
           "Content-Type": "application/json;charset=UTF-8",
         },
       };
       let url = "http://localhost:8001/question/" + this.questionId;
-      axios
+      await axios
         .get(url, axiosConfig)
         .then((response) => {
           this.question = response.data;
@@ -78,12 +77,8 @@ export default {
     },
   },
   beforeMount() {
-    console.log("View Responses before mount -- start");
     this.questionId = this.$route.params.id;
-    console.log("View Responses before mount questionId: "+ this.questionId);
-
     this.loadQuestionWithResponses();
-    console.log("View Responses before mount -- end");
   },
 };
 </script>

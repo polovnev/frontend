@@ -1,36 +1,42 @@
 <template>
-  <div>
-    Локация: {{ this.locationName }}<br />
+  <div class="container">
+  <header>
+    <nav class="navbar navbar-light bg-light">
+      Локация: {{ this.locationName }}<br />
+      <router-link :to="{ name: 'ChooseLocation' }">
+        <a class="btn btn-info btn-sm" role="button">Локация</a>
+      </router-link>
+      <div v-show="!isAuthenticated">
+        <router-link :to="{ name: 'ViewLogin' }">
+          <a class="btn btn-info btn-sm" role="button">Войти</a>
+        </router-link>
+      </div>
+      <div v-show="isAuthenticated">
+        Пользователь: {{ this.user.username }}
+        <a @click="this.logout()" class="btn btn-info btn-sm" role="button">
+          Выйти
+        </a>
+      </div>
+      <div v-show="!isAuthenticated">
+        <router-link :to="{ name: 'ViewRegistration' }">
+          <a class="btn btn-info btn-sm" role="button">Регистрация</a>
+        </router-link>
+      </div>
+        <ChooseTags @set-tags="setTags" :test="test" />
 
-    <router-link :to="{ name: 'ChooseLocation' }">
-      <a class="btn btn-info btn-sm" role="button">Локация</a>
-    </router-link>
-    <div v-show="!isAuthenticated">
-      <router-link :to="{ name: 'ViewLogin' }">
-        <a class="btn btn-info btn-sm" role="button">Войти</a>
-      </router-link>
-    </div>
-    <div v-show="isAuthenticated">
-      Пользователь: {{ this.user.username }}
-      <a @click="this.logout()" class="btn btn-info btn-sm" role="button">
-        Выйти
-      </a>
-    </div>
-    <div v-show="!isAuthenticated">
-      <router-link :to="{ name: 'ViewRegistration' }">
-        <a class="btn btn-info btn-sm" role="button">Регистрация</a>
-      </router-link>
-    </div>
+    </nav>
+  </header>
   </div>
-  <ChooseTags @set-tags="setTags" />
-  <router-view
-    :locationId="locationId"
-    :user="user"
-    :tags="tags"
-    :isAuthenticated="isAuthenticated"
-    @login="setUsernameAndJwt"
-    @question-added="questionAdded"
-  />
+  <div class="container">
+    <router-view
+      :locationId="locationId"
+      :user="user"
+      :tags="tags"
+      :isAuthenticated="isAuthenticated"
+      @login="setUsernameAndJwt"
+      @question-added="questionAdded"
+    />
+  </div>
 </template>
 
 <script>
@@ -61,7 +67,7 @@ export default {
   methods: {
     moveToQuestions() {
       let tagsString;
-      if(this.tags) {
+      if (this.tags) {
         tagsString = this.tags.query;
       } else {
         tagsString = this.$route.query.tags;
@@ -78,12 +84,17 @@ export default {
       alert("Вопрос добавлен!");
       this.moveToQuestions();
     },
-    async setLocationName() {
-      this.locationName = (
-        await axios.get(
-          "http://localhost:8001/country/null/location/" + this.locationId
-        )
-      ).data.name;
+    setLocationName() {
+      let url =
+        "http://localhost:8001/country/null/location/" + this.locationId;
+
+      axios
+        .get(url)
+        .then((response) => (this.locationName = response.data.name))
+        .catch((error) => {
+          alert("Ошибка загрузки имя локации");
+          console.log(error);
+        });
     },
     checkIsAuthenticated() {
       return this.user.username != null && this.user.jwt != null;
@@ -123,6 +134,7 @@ export default {
     },
     setTags(tags) {
       this.tags = tags;
+      this.moveToQuestions();
     },
   },
   beforeMount() {

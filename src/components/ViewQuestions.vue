@@ -25,7 +25,7 @@ import axios from "axios";
 import ShowQuestion from "../components/question/ShowQuestion.vue";
 
 export default {
-  props: ["locationId", "user", "tags"],
+  props: ["locationId", "user", "tags", "isAuthenticated"],
   data() {
     return {
       questions: [],
@@ -36,7 +36,7 @@ export default {
   },
   methods: {
     addQuestion() {
-      if (this.user.username != null) {
+      if (this.isAuthenticated) {
         this.$router.push({
           name: "ViewAddQuestion",
         });
@@ -46,7 +46,7 @@ export default {
         });
       }
     },
-    async loadQuestions() {
+    loadQuestions() {
       let axiosConfig = {
         headers: {
           "Content-Type": "application/json;charset=UTF-8",
@@ -60,13 +60,15 @@ export default {
         locationId: this.locationId,
         tags: tagsArray,
       };
-      this.questions = (
-        await axios.post(
-          "http://localhost:8001/question/find",
-          requestBody,
-          axiosConfig
-        )
-      ).data;
+      let url = "http://localhost:8001/question/find";
+
+      axios
+        .post(url, requestBody, axiosConfig)
+        .then((response) => (this.questions = response.data))
+        .catch((error) => {
+          alert("Ошибка загрузки вопросов");
+          console.log(error);
+        });
     },
   },
   watch: {

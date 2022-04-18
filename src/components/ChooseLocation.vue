@@ -85,11 +85,16 @@ export default {
     },
     async loadLocations(event) {
       let countryId = event.target.value;
-      this.locations = (
-        await axios.get(
-          "http://localhost:8001/country/" + countryId + "/location"
-        )
-      ).data;
+      let url = "http://localhost:8001/country/" + countryId + "/location";
+
+      axios
+        .get(url)
+        .then((response) => (this.locations = response.data))
+        .catch((error) => {
+          alert("Ошибка загрузки вопроса");
+          console.log(error);
+        });
+
       this.isShowLocations = true;
     },
     checkLocation(location) {

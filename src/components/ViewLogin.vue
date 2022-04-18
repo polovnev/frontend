@@ -53,6 +53,7 @@ export default {
       this.$emit("login", username, jwt);
     },
     login() {
+      let url = "http://localhost:8001/login";
       let axiosConfig = {
         headers: {
           "Content-Type": "application/json;charset=UTF-8",
@@ -63,7 +64,7 @@ export default {
         password: this.password,
       };
       axios
-        .post("http://localhost:8001/login", requestBody, axiosConfig)
+        .post(url, requestBody, axiosConfig)
         .then((response) => this.saveToCookiesAndPushToQuestions(response))
         .catch((error) => {
           alert("Не верный пароль или имя пользователя");
