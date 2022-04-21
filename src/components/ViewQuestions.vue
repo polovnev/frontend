@@ -1,6 +1,8 @@
 <template>
   <div>
-    <div @click="addQuestion">Добавить вопрос</div>
+    <div @click="addQuestion">
+      <i class="fa fa-plus-circle" aria-hidden="true"></i>
+    </div>
     <div
       v-for="question in questions"
       :key="question.id"
@@ -81,3 +83,11 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.fa-plus-circle {
+  color: green;
+  font-size: 50px;
+  cursor: pointer;
+}
+</style>

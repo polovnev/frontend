@@ -2,19 +2,18 @@
   <div class="container">
     <header>
       <nav class="navbar navbar-light bg-light">
-        Локация: {{ this.locationName }}<br />
+        <i class="fa fa-location-arrow" aria-hidden="true"></i> {{ this.locationName }}
         <router-link :to="{ name: 'ChooseLocation' }">
-          <a class="btn btn-info btn-sm" role="button">Локация</a>
+          <i class="fa fa-pencil" aria-hidden="true"></i>
         </router-link>
         <ChooseTags @set-tags="setTags" :test="test" />
-<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-      <div v-show="!isAuthenticated">
+        <div v-show="!isAuthenticated">
           <router-link :to="{ name: 'ViewLogin' }">
             <a class="btn btn-outline-info btn-sm" role="button">Войти</a>
           </router-link>
         </div>
         <div v-show="isAuthenticated">
-          Пользователь: {{ this.user.username }}
+          <i class="fa fa-user-o" aria-hidden="true"></i> {{ this.user.username }}
           <a
             @click="this.logout()"
             class="btn btn-outline-danger btn-sm"
