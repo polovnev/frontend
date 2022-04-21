@@ -1,31 +1,37 @@
 <template>
   <div class="container">
-  <header>
-    <nav class="navbar navbar-light bg-light">
-      Локация: {{ this.locationName }}<br />
-      <router-link :to="{ name: 'ChooseLocation' }">
-        <a class="btn btn-info btn-sm" role="button">Локация</a>
-      </router-link>
-      <div v-show="!isAuthenticated">
-        <router-link :to="{ name: 'ViewLogin' }">
-          <a class="btn btn-info btn-sm" role="button">Войти</a>
+    <header>
+      <nav class="navbar navbar-light bg-light">
+        Локация: {{ this.locationName }}<br />
+        <router-link :to="{ name: 'ChooseLocation' }">
+          <a class="btn btn-info btn-sm" role="button">Локация</a>
         </router-link>
-      </div>
-      <div v-show="isAuthenticated">
-        Пользователь: {{ this.user.username }}
-        <a @click="this.logout()" class="btn btn-info btn-sm" role="button">
-          Выйти
-        </a>
-      </div>
-      <div v-show="!isAuthenticated">
-        <router-link :to="{ name: 'ViewRegistration' }">
-          <a class="btn btn-info btn-sm" role="button">Регистрация</a>
-        </router-link>
-      </div>
         <ChooseTags @set-tags="setTags" :test="test" />
-
-    </nav>
-  </header>
+<i class="fa-solid fa-building"></i>
+        <div v-show="!isAuthenticated">
+          <router-link :to="{ name: 'ViewLogin' }">
+            <a class="btn btn-outline-info btn-sm" role="button">Войти</a>
+          </router-link>
+        </div>
+        <div v-show="isAuthenticated">
+          Пользователь: {{ this.user.username }}
+          <a
+            @click="this.logout()"
+            class="btn btn-outline-danger btn-sm"
+            role="button"
+          >
+            Выйти
+          </a>
+        </div>
+        <div v-show="!isAuthenticated">
+          <router-link :to="{ name: 'ViewRegistration' }">
+            <a class="btn btn-outline-success btn-sm" role="button"
+              >Регистрация</a
+            >
+          </router-link>
+        </div>
+      </nav>
+    </header>
   </div>
   <div class="container">
     <router-view
