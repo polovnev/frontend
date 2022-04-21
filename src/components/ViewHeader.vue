@@ -7,8 +7,8 @@
           <a class="btn btn-info btn-sm" role="button">Локация</a>
         </router-link>
         <ChooseTags @set-tags="setTags" :test="test" />
-<i class="fa-solid fa-building"></i>
-        <div v-show="!isAuthenticated">
+<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+      <div v-show="!isAuthenticated">
           <router-link :to="{ name: 'ViewLogin' }">
             <a class="btn btn-outline-info btn-sm" role="button">Войти</a>
           </router-link>
