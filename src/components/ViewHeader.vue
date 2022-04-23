@@ -5,10 +5,10 @@
         <div class="col-md-8 col-sm-6">
           <div class="row">
             <div class="col-3"></div>
-            <div class="col-3">
-              <img id="logo" src="./../assets/logo.png" alt="logo" /><p>Граница</p>
+            <div class="col-1">
+              <img id="logo" src="./../assets/logo.png" alt="logo" />
             </div>
-            <div class="col-3"></div>
+            <div class="col-8"><p id="logo-name">Граница</p></div>
           </div>
         </div>
         <div class="col-md-4 col-sm-6">
@@ -168,10 +168,14 @@ export default {
 </script>
 
 <style scoped>
+
 .btn {
   margin-left: 10%;
 }
 #logo {
-  height: 30px;
+  height: 35px;
+}
+#logo-name {
+  font-size: 23px;
 }
 </style>

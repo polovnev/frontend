@@ -1,5 +1,13 @@
 <template>
-  <button class="btn btn-outline-dark btn-sm" v-show="!isChooseTags" @click="isChooseTags = true">Выбрать теги</button>
+  <div>
+    <a
+      class="btn btn-outline-dark btn-sm"
+      role="button"
+      v-show="!isChooseTags"
+      @click="isChooseTags = true"
+      >Выбрать теги</a
+    >
+  </div>
   <div v-show="isChooseTags">
     <span
       v-for="tag in tags.notActive"
