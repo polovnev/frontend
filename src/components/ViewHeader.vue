@@ -1,31 +1,40 @@
 <template>
-  <div class="container">
-    <header>
+  <div class="container-md">
+    <div class="row">
       <nav class="navbar navbar-light bg-light">
-        <img id="logo" src="./../assets/logo.png" alt="logo" />
-        <p>Граница</p>
-        <div class="btn-group ms-auto mb-2 mb-lg-0" role="group">
-          <ChooseTags @set-tags="setTags" :test="test" />
-          <div v-show="!isAuthenticated">
-            <router-link :to="{ name: 'ViewLogin' }">
-              <a class="btn btn-outline-info btn-sm" role="button">Войти</a>
-            </router-link>
+        <div class="col-md-8 col-sm-6">
+          <div class="row">
+            <div class="col-3"></div>
+            <div class="col-3">
+              <img id="logo" src="./../assets/logo.png" alt="logo" /><p>Граница</p>
+            </div>
+            <div class="col-3"></div>
           </div>
-          <div v-show="isAuthenticated">
-            <a
-              @click="this.logout()"
-              class="btn btn-outline-danger btn-sm"
-              role="button"
-            >
-              Выйти
-            </a>
-          </div>
-          <div v-show="!isAuthenticated">
-            <router-link :to="{ name: 'ViewRegistration' }">
-              <a class="btn btn-outline-success btn-sm" role="button"
-                >Регистрация</a
+        </div>
+        <div class="col-md-4 col-sm-6">
+          <div class="btn-group ms-auto mb-2 mb-lg-0" role="group">
+            <ChooseTags @set-tags="setTags" :test="test" />
+            <div v-show="!isAuthenticated">
+              <router-link :to="{ name: 'ViewLogin' }">
+                <a class="btn btn-outline-info btn-sm" role="button">Войти</a>
+              </router-link>
+            </div>
+            <div v-show="isAuthenticated">
+              <a
+                @click="this.logout()"
+                class="btn btn-outline-danger btn-sm"
+                role="button"
               >
-            </router-link>
+                Выйти
+              </a>
+            </div>
+            <div v-show="!isAuthenticated">
+              <router-link :to="{ name: 'ViewRegistration' }">
+                <a class="btn btn-outline-success btn-sm" role="button"
+                  >Регистрация</a
+                >
+              </router-link>
+            </div>
           </div>
         </div>
       </nav>
@@ -40,9 +49,7 @@
           {{ this.user.username }}
         </div>
       </div>
-    </header>
-  </div>
-  <div class="container">
+    </div>
     <router-view
       :locationId="locationId"
       :user="user"
