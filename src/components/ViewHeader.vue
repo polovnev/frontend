@@ -2,34 +2,44 @@
   <div class="container">
     <header>
       <nav class="navbar navbar-light bg-light">
-        <i class="fa fa-location-arrow" aria-hidden="true"></i> {{ this.locationName }}
+        <img id="logo" src="./../assets/logo.png" alt="logo" />
+        <p>Граница</p>
+        <div class="btn-group ms-auto mb-2 mb-lg-0" role="group">
+          <ChooseTags @set-tags="setTags" :test="test" />
+          <div v-show="!isAuthenticated">
+            <router-link :to="{ name: 'ViewLogin' }">
+              <a class="btn btn-outline-info btn-sm" role="button">Войти</a>
+            </router-link>
+          </div>
+          <div v-show="isAuthenticated">
+            <a
+              @click="this.logout()"
+              class="btn btn-outline-danger btn-sm"
+              role="button"
+            >
+              Выйти
+            </a>
+          </div>
+          <div v-show="!isAuthenticated">
+            <router-link :to="{ name: 'ViewRegistration' }">
+              <a class="btn btn-outline-success btn-sm" role="button"
+                >Регистрация</a
+              >
+            </router-link>
+          </div>
+        </div>
+      </nav>
+      <div>
+        <i class="fa fa-location-arrow" aria-hidden="true"></i>
+        {{ this.locationName }}
         <router-link :to="{ name: 'ChooseLocation' }">
           <i class="fa fa-pencil" aria-hidden="true"></i>
         </router-link>
-        <ChooseTags @set-tags="setTags" :test="test" />
-        <div v-show="!isAuthenticated">
-          <router-link :to="{ name: 'ViewLogin' }">
-            <a class="btn btn-outline-info btn-sm" role="button">Войти</a>
-          </router-link>
-        </div>
         <div v-show="isAuthenticated">
-          <i class="fa fa-user-o" aria-hidden="true"></i> {{ this.user.username }}
-          <a
-            @click="this.logout()"
-            class="btn btn-outline-danger btn-sm"
-            role="button"
-          >
-            Выйти
-          </a>
+          <i class="fa fa-user-o" aria-hidden="true"></i>
+          {{ this.user.username }}
         </div>
-        <div v-show="!isAuthenticated">
-          <router-link :to="{ name: 'ViewRegistration' }">
-            <a class="btn btn-outline-success btn-sm" role="button"
-              >Регистрация</a
-            >
-          </router-link>
-        </div>
-      </nav>
+      </div>
     </header>
   </div>
   <div class="container">
@@ -149,3 +159,12 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.btn {
+  margin-left: 10%;
+}
+#logo {
+  height: 30px;
+}
+</style>
